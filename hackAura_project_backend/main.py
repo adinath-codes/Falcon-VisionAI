@@ -1,7 +1,4 @@
-import io
-import os
 import numpy as np
-from PIL import Image
 import cv2
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware

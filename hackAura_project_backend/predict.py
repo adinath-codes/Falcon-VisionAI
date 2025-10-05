@@ -1,6 +1,5 @@
 from ultralytics import YOLO
 from pathlib import Path
-import cv2
 import os
 import yaml
 
