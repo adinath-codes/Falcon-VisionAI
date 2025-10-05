@@ -105,4 +105,4 @@ async def detect_objects(file: UploadFile = File(...)):
 # Run the API with Uvicorn
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="https://falcon-visionai.onrender.com", port=os.getenv("PORT") or 8000)
+    uvicorn.run(app, host="https://falcon-visionai.onrender.com", port=os.getenv("PORT"))
