@@ -1,9 +1,10 @@
+import os
 import numpy as np
 import cv2
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from ultralytics import YOLO
-
+from dotenv import load_dotenv
 from predict import predict_and_save
 # Initialize FastAPI app
 app = FastAPI()
@@ -14,7 +15,9 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "http://localhost:5173/",
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "https://falcon-vision-ai.vercel.app"
+    "https://falcon-vision-ai.vercel.app/"
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -102,4 +105,4 @@ async def detect_objects(file: UploadFile = File(...)):
 # Run the API with Uvicorn
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="https://falcon-visionai.onrender.com", port=os.getenv("PORT") or 8000)
