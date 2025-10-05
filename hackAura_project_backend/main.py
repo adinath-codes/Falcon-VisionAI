@@ -2,11 +2,12 @@ import io
 import os
 import numpy as np
 from PIL import Image
-
+import cv2
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from ultralytics import YOLO
 
+from predict import predict_and_save
 # Initialize FastAPI app
 app = FastAPI()
 
@@ -50,50 +51,48 @@ async def detect_objects(file: UploadFile = File(...)):
 
     try:
         image_bytes = await file.read()
-        image = Image.open(io.BytesIO(image_bytes))
-        
+        image_array = np.frombuffer(image_bytes, dtype=np.uint8)
+        image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+
         # Ensure the image is in RGB format for YOLO
-        if image.mode != "RGB":
-            image = image.convert("RGB")
+        # if image.mode != "RGB":
+        #     image = image.convert("RGB")
             
         # Perform inference on the image
-        results = model.predict(image)
+        print("Performing inference...")
+        model = YOLO("runs/detect/train3/weights/best.pt")
+        results = predict_and_save(model,image)
+        # print("Inference completed.",results)
+       #read results from output/label
+       
 
         # Process the detection results
         detections = []
-        detections.append({
-                    "x": 10,
-                    "y": 10,
-                    "h": 10,
-                    "w": 10,
-                    "confidence": 1,
-                    "class_name": "dummy"
-                })
         for r in results:
-            for box in r.boxes:
-                # Get coordinates in xyxy format (x1, y1, x2, y2)
-                x1, y1, x2, y2 = box.xyxy[0].tolist()
-                
-                # Convert to xywh format (x, y, width, height)
-                x = x1
-                y = y1
-                width = x2 - x1
-                height = y2 - y1
+            print(r)
 
-                confidence = box.conf[0].item()
-                class_id = int(box.cls[0].item())
-                class_name = model.names[class_id]
-                
-                # Append to the list of detections
-                
-                detections.append({
-                    "x": x,
-                    "y": y,
-                    "h": height,
-                    "w": width,
-                    "confidence": confidence,
-                    "class_name": class_name
-                })
+            # confidence = box.conf[0].item()
+            class_name = model.names[r[0]]
+            
+            # Append to the list of detections
+            
+            # detections.append({
+            #     "x": r[2]*100,
+            #     "y": r[3]*100,
+            #     "h": r[4]*100,
+            #     "w": r[5]*100,
+            #     "confidence": r[1],
+            #     "class_name": class_name
+            # })
+            detections.append({
+                "x": r[2],
+                "y": r[3],
+                "w": r[4],
+                "h": r[5],
+                "confidence": r[1],
+                "class_name": class_name,
+                "class_id": r[0]
+            })
         
         return {"detections": detections}
     except Exception as e:
@@ -106,4 +105,4 @@ async def detect_objects(file: UploadFile = File(...)):
 # Run the API with Uvicorn
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="localhost", port=8000)

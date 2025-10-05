@@ -1,0 +1,12 @@
+train: train3/images #path to training folder(s)
+nc: 7
+names:
+  [
+    "OxygenTank",
+    "NitrogenTank",
+    "FirstAidBox",
+    "FireAlarm",
+    "SafetySwitchPanel",
+    "EmergencyPhone",
+    "FireExtinguisher",
+  ]

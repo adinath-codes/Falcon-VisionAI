@@ -1,1 +1,52 @@
 @import "tailwindcss";
+
+:root {
+  /* font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ; */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* color:rgba(0, 98, 255, 0.555) */
+}
+/* Webkit-based browsers (Chrome, Safari, Edge) */
+/* Webkit-based browsers (Chrome, Safari, Edge) */
+
+/* The main scrollbar container */
+::-webkit-scrollbar {
+  width: 4px; /* Reduced width for a smaller, thinner look */
+  height: 8px; /* Important for horizontal scrollbars if needed */
+}
+
+/* The scrollbar track (the background) */
+::-webkit-scrollbar-track {
+  background-color: #0c1824; /* A slightly darker blue for depth */
+  border-radius: 8px; /* Matches the scrollbar width */
+}
+
+/* The scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  /* A subtle linear gradient for a premium look */
+  background: linear-gradient(
+    180deg,
+    #854dff,
+    #1a5276
+  ); /* Brighter blues for more glow potential */
+  border-radius: 8px;
+  /* Enhanced glow effect that truly stands out */
+  box-shadow: 0 0 12px rgba(77, 166, 255, 0.7); /* Larger, more intense glow */
+  transition: all 0.4s ease-in-out; /* Smooth transition for hover effect */
+  border: 1px solid rgba(77, 166, 255, 0.3); /* Subtle border for definition */
+}
+
+/* Hover state for the thumb */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #a366ff,
+    #297acc
+  ); /* Even brighter on hover */
+  /* Intense, focused glow on hover */
+  box-shadow: 0 0 20px rgba(102, 179, 255, 1); /* Much stronger glow */
+  border: 1px solid rgba(102, 179, 255, 0.5); /* Clearer border on hover */
+}
+::selection {
+  background-color: #8049ed; /* A deep, professional blue */
+  color: #050a10; /* A very light blue-gray for the text */
+}
